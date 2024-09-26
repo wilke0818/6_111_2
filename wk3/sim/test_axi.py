@@ -87,7 +87,8 @@ def counter_runner():
         hdl_toplevel="j_math",
         test_module="test_axi",
         test_args=run_test_args,
-        waves=True
+#        waves=True,
+        plusargs=['-vcd']
     )
  
 if __name__ == "__main__":

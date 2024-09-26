@@ -23,7 +23,7 @@ class AXISMonitor(BusMonitor):
         read_only = ReadOnly() #This is
         while True:
             await rising_edge
-            await falling_edge #sometimes see in AXI shit
+#            await falling_edge #sometimes see in AXI shit
             await read_only  #readonly (the postline)
             valid = self.bus.axis_tvalid.value
             ready = self.bus.axis_tready.value

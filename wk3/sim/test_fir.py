@@ -41,13 +41,13 @@ async def test_a(dut):
     await set_ready(dut,1)
     await reset(dut.s00_axis_aclk, dut.s00_axis_aresetn,2,0)
     #feed the driver:
-#    for i in range(50):
-#      data = {'type':'single', "contents":{"data": random.randint(1,255),"last":0,"strb":15}}
-#      ind.append(data)
+    for i in range(50):
+      data = {'type':'single', "contents":{"data": random.randint(1,255),"last":0,"strb":15}}
+      ind.append(data)
     data = {'type':'burst', "contents":{"data": np.array(list(range(100)))}}
     ind.append(data)
 
-    await ClockCycles(dut.s00_axis_aclk, 50)
+    await ClockCycles(dut.s00_axis_aclk, 500)
     await set_ready(dut,0)
     await ClockCycles(dut.s00_axis_aclk, 300)
     await set_ready(dut,1)
@@ -87,7 +87,8 @@ def counter_runner():
         hdl_toplevel="fir_15",
         test_module="test_fir",
         test_args=run_test_args,
-        waves=True
+#        waves=True,
+        plusargs=['-vcd']
     )
  
 if __name__ == "__main__":

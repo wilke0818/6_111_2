@@ -81,7 +81,7 @@ module fir_15 #
   assign m00_axis_tdata = intmdt_term[NUM_COEFFS-1];
   assign m00_axis_tstrb = s00_axis_tstrb;
 
-  assign s00_axis_tready = m00_axis_tready;
+  assign s00_axis_tready = m00_axis_tready && s00_axis_aresetn;
 
   //initializing values
   initial begin //updated you coefficients

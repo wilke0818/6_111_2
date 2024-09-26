@@ -39,10 +39,16 @@ module fir_tap #
                     data_out <= coeff * data_in + prev_in;
                     valid_out <= valid_in;
                     last_out <= last_in;
-                end else begin
+                end else if (~ready) begin
+                    state <= STALLING;
+                    valid_out <= 0;
+                    last_out <= 0;
+                    data_out <= 0;
+                end else begin //ready but not valid_in
                     data_out <= 0;
                     valid_out <= valid_in;
                     last_out <= last_in;
+                    state <= RESTING;
                 end
             end
             STALLING: begin
@@ -51,6 +57,16 @@ module fir_tap #
                     data_out <= coeff * data_in + prev_in;
                     valid_out <= valid_in;
                     last_out <= last_in;
+                end else if (ready) begin
+                    state <= RESTING;
+                    data_out <= 0;
+                    valid_out <= valid_in;
+                    last_out <= last_in;
+                end else begin
+                    state <= STALLING;
+                    data_out <= 0;
+                    valid_out <= 0;
+                    last_out <= 0;
                 end
             end
             RUNNING: begin
@@ -63,6 +79,14 @@ module fir_tap #
                     end
                 end else if (~ready) begin
                     state <= STALLING;
+                    data_out <= 0;
+                    last_out <= last_in;
+                    valid_out <= 0;
+                end else begin
+                    state <= RESTING;
+                    valid_out <= valid_in;
+                    last_out <= last_in;
+                    data_out <= 0;
                 end
 
             end
