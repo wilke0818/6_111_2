@@ -7,9 +7,9 @@ class AXISMonitor(BusMonitor):
     monitors axi streaming bus
     """
     transactions = 0
-    def __init__(self, dut, name, clk):
+    def __init__(self, dut, name, clk, callback=None, event=None):
         self._signals = ['axis_tvalid','axis_tready','axis_tlast','axis_tdata','axis_tstrb']
-        BusMonitor.__init__(self, dut, name, clk)
+        BusMonitor.__init__(self, dut, name, clk,callback=callback,event=event)
         self.clock = clk
         self.transactions = 0
 
@@ -32,5 +32,5 @@ class AXISMonitor(BusMonitor):
             if valid and ready:
               self.transactions += 1
               thing = dict(data=data,last=last,name=self.name,count=self.transactions)
-              print(thing)
+#              print(thing)
               self._recv(thing)
